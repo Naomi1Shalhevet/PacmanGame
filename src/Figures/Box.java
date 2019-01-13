@@ -12,7 +12,8 @@ public class Box {
 	private int limXright;
 	private int limYup;
 	private int limYdown;
-
+	private double MapWidth = 1433;
+	private double MapHeight = 642;
 
 	/**
 	 * Constractor of the Box
@@ -24,10 +25,10 @@ public class Box {
 		pointTop=new Point3D(Double.parseDouble(arr[5]),Double.parseDouble(arr[6]),Double.parseDouble(arr[7]));
 		pointStart=new Point3D(pointTop.x(),pointDown.y());
 		downRight=new Point3D (pointDown.x(), pointTop.y());
-		limYdown=map.GPStoPixels(1433, 642, pointDown).ix()-1;
-		 limYup=map.GPStoPixels(1433, 642, pointTop).ix()+1;
-		 limXright=map.GPStoPixels(1433, 642, pointTop).iy()-1;
-		limXleft=map.GPStoPixels(1433, 642, pointDown).iy()+1;
+		limYdown=map.GPStoPixels(MapWidth, MapHeight, pointDown).ix()-1;
+		 limYup=map.GPStoPixels(MapWidth, MapHeight, pointTop).ix()+1;
+		 limXright=map.GPStoPixels(MapWidth, MapHeight, pointTop).iy()-1;
+		limXleft=map.GPStoPixels(MapWidth, MapHeight, pointDown).iy()+1;
 		
 	}
 	public int getLimXleft() {
@@ -63,11 +64,13 @@ public class Box {
 	public Point3D getDownRight() {
 		return downRight;
 	}
+	
+	
 	public boolean inTheBox (Point3D pointInGps)
 	{
-		Point3D TopInp=map.GPStoPixels(1433, 642, pointTop);
-		Point3D downInp=map.GPStoPixels(1433, 642, pointDown);
-		Point3D P=map.GPStoPixels(1433, 642, pointInGps);
+		Point3D TopInp=map.GPStoPixels(MapWidth, MapHeight, pointTop);
+		Point3D downInp=map.GPStoPixels(MapWidth, MapHeight, pointDown);
+		Point3D P=map.GPStoPixels(MapWidth, MapHeight, pointInGps);
 		if (P.iy()<TopInp.iy()&&P.iy()>downInp.iy())
 			if (P.ix()<downInp.ix()&&P.ix()>TopInp.ix())
 			{
@@ -79,8 +82,8 @@ public class Box {
 	}
 	public boolean inTheBoxP (Point3D pointInP)
 	{
-		Point3D TopInp=map.GPStoPixels(1433, 642, pointTop);
-		Point3D downInp=map.GPStoPixels(1433, 642, pointDown);
+		Point3D TopInp=map.GPStoPixels(MapWidth, MapHeight, pointTop);
+		Point3D downInp=map.GPStoPixels(MapWidth, MapHeight, pointDown);
 		if (pointInP.iy()<TopInp.iy()&&pointInP.iy()>downInp.iy())
 			if (pointInP.ix()<downInp.ix()&&pointInP.ix()>TopInp.ix())
 			{
