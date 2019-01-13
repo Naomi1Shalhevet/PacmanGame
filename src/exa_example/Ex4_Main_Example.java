@@ -56,7 +56,7 @@ public class Ex4_Main_Example {
 			
 		// 7.2) get the current score of the game
 			String info = play1.getStatistics();
-			System.out.println(info);
+			System.out.println(info + "bbbbbbbbbb");
 		// 7.3) get the game-board current state
 			board_data = play1.getBoard();
 			for(int a=0;a<board_data.size();a++) {

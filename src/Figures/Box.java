@@ -66,13 +66,15 @@ public class Box {
 	}
 	
 	
-	public boolean inTheBox (Point3D pointInGps)
+	public boolean inTheBox (Point3D point, boolean IsGPS)
 	{
 		Point3D TopInp=map.GPStoPixels(MapWidth, MapHeight, pointTop);
 		Point3D downInp=map.GPStoPixels(MapWidth, MapHeight, pointDown);
-		Point3D P=map.GPStoPixels(MapWidth, MapHeight, pointInGps);
-		if (P.iy()<TopInp.iy()&&P.iy()>downInp.iy())
-			if (P.ix()<downInp.ix()&&P.ix()>TopInp.ix())
+		if (IsGPS) {
+			point=map.GPStoPixels(MapWidth, MapHeight, point);
+		}
+		if (point.iy()<TopInp.iy()&&point.iy()>downInp.iy())
+			if (point.ix()<downInp.ix()&&point.ix()>TopInp.ix())
 			{
 
 				return false;
@@ -80,19 +82,7 @@ public class Box {
 		return true;
 
 	}
-	public boolean inTheBoxP (Point3D pointInP)
-	{
-		Point3D TopInp=map.GPStoPixels(MapWidth, MapHeight, pointTop);
-		Point3D downInp=map.GPStoPixels(MapWidth, MapHeight, pointDown);
-		if (pointInP.iy()<TopInp.iy()&&pointInP.iy()>downInp.iy())
-			if (pointInP.ix()<downInp.ix()&&pointInP.ix()>TopInp.ix())
-			{
 
-				return false;
-			}
-		return true;
-
-	}
 	/**
 	 * return the width that get from this rectangle
 	 * @param width

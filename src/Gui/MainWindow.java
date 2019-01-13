@@ -44,11 +44,11 @@ import Figures.ghost;
 public class MainWindow extends JFrame implements MouseListener{
 
 	public BufferedImage myImage;
-	ArrayList<Packman> pack_array = new ArrayList<Packman>();
-	ArrayList<Fruit> fruit_array = new ArrayList<Fruit>();
-	ArrayList<ghost> ghost_array = new ArrayList<ghost>();
-	ArrayList<Box> box_array = new ArrayList<Box>();
-	Point3D [] BoxCorners;
+	ArrayList<Packman> pack_array = null;
+	ArrayList<Fruit> fruit_array = null;
+	ArrayList<ghost> ghost_array = null;
+	ArrayList<Box> box_array = null;
+	Point3D [] BoxCorners = null;
 	Me me=new Me (32.101898,35.202369);
 	Play server = new Play();
 	double angle=0;
@@ -209,7 +209,7 @@ public class MainWindow extends JFrame implements MouseListener{
 		
 		Point3D p=map.GPStoPixels(getWidth(), getHeight(),me.getMe());
 		g.setColor(Color.MAGENTA);
-		g.fillOval(p.iy(), p.ix(), 25,25);
+		g.fillOval(p.iy(), p.ix(), 30,30);
 		try {
 			Thread.sleep(20);
 		} catch (InterruptedException e) {
@@ -279,7 +279,6 @@ public class MainWindow extends JFrame implements MouseListener{
 			{
 				Box box=new Box(csvLine);
 				box_array.add(box);
-				IsBox=true;
 				break;
 			}
 			case "F": 
@@ -303,9 +302,9 @@ public class MainWindow extends JFrame implements MouseListener{
 			}
 		}
 		
-		if (IsBox) {
-			MyGraph graph= new MyGraph(box_array);
-		BoxCorners=graph.tachat(fruit_array.get(0), me);
+		if (box_array != null) {
+		MyGraph graph= new MyGraph(box_array);
+		BoxCorners=graph.PlayBox(fruit_array.get(0), me);
 		repaint();
 		}
 	}
