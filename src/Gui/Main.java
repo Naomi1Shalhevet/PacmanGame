@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 /**
  * Main class to run the gui 
  * @author Shalhevet Gamliel and Naomi Oyer
- *
+ * 
  */
 public class Main 
 {

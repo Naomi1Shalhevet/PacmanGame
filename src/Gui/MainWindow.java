@@ -271,44 +271,47 @@ public class MainWindow extends JFrame implements MouseListener {
 
 			String[] csvLine = data.get(i).split(",");
 			//String obj = csvLine[0];
-
-
-			if (csvLine[0].equals("B")){
-				Box box_new =new Box(csvLine);
-				box_array.add(box_new);
+			String obj=csvLine[0];
+			switch(obj)
+			{
+			case "B": 
+			{
+				Box box=new Box(csvLine);
+				box_array.add(box);
 				break;
 			}
-
-			if (csvLine[0].equals("F")){
-				Fruit fruit_new =new Fruit (csvLine);
-				fruit_array.add(fruit_new);
+			case "F": 
+			{
+				Fruit fruit=new Fruit (csvLine);
+				fruit_array.add(fruit);
 				break;
 			}
-
-			if (csvLine[0].equals("G")){
-				Ghost ghost_new = new Ghost (csvLine);
-				ghost_array.add(ghost_new);
+			case "G":
+			{
+				Ghost ghost=new Ghost (csvLine);
+				ghost_array.add(ghost);
 				break;
 			}
-			if (csvLine[0].equals("P")) {
-				Pacmans Pac_new =new Pacmans(csvLine);
-				pacman_array.add(Pac_new);
+			case "P": 
+			{
+				Pacmans Pacmans=new Pacmans(csvLine);
+				pacman_array.add(Pacmans);
 				break;
 			}
-
+			}
 		}
+
+
+			
 
 
 		if (box_array != null) {
 			MyGraph graph= new MyGraph(box_array);
 			BoxCorners = graph.BoxCorners(fruit_array.get(0), me);
-
-
-
 			repaint();
 		}
 	}
-
+ 
 	/**
 	 * setInitLocation to the player on the map and calculates the angle between the player the point clicked on the map 
 	 *   
