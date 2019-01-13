@@ -5,6 +5,7 @@ public class Point3D implements Geom_element, Serializable
 {
 	/**
 	 * This class represents a 3D point in space.
+	 *  * @author Shalhevet Gamliel and Naomi Oyer
 	 */
 	private static final long serialVersionUID = 1L;
 	private double _x,_y,_z;

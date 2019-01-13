@@ -1,6 +1,6 @@
 package Figures;
+import Coords.map;
 import Geom.Point3D;
-import Gui.map;
 
 public class Packman {
 

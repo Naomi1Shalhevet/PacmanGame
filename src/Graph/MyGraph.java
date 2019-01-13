@@ -3,23 +3,21 @@ package Graph;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
-
+import Coords.map;
 import graph.Graph;
 import graph.Node;
 import Geom.Point3D;
-import Gui.map;
 import Figures.Box;
 import Figures.Fruit;
 import Figures.Me;
 
-public class Graph_example {
+public class MyGraph {
 	ArrayList <Box> box;
-	Graph g=new Graph();
 	String source="a";
 	String target="b";
 	private int counter;
-	public Graph_example (ArrayList boxlist)
+	
+	public MyGraph (ArrayList boxlist)
 	{
 		this.box=boxlist;
 	}
@@ -41,15 +39,14 @@ public class Graph_example {
 
 		Point3D [] arr=limitOfBOX (this.box,pp);
 		Graph G = new Graph(); 
-		arr[0]=new Point3D (map.gpsToPix(1433, 642,me.getMe()));
-		arr[arr.length-1]=new Point3D (map.gpsToPix(1433, 642,fruit.getPoint()));
+		arr[0]=new Point3D (map.GPStoPixels(1433, 642,me.getMe()));
+		arr[arr.length-1]=new Point3D (map.GPStoPixels(1433, 642,fruit.getPoint()));
 		System.out.println(Arrays.toString(arr));
 		System.out.println("length"+arr.length);
 		G.add(new Node(source)); // Node "a" (0)
 		for(int i=1;i<arr.length-1;i++) {
 			Node d = new Node(""+i);
 			G.add(d);
-			//		pp[i] = new Point3D(xx[i], yy[i]);
 
 		}
 		int count=0;
@@ -57,29 +54,8 @@ public class Graph_example {
 		Point3D p1=new Point3D (876.0,507.0,0.0);
 		Point3D p2=new Point3D (829.0,25.0,0.0);
 		Line line=new Line (p1,p2);
-		System.out.println("hadar hahabla"+line.TherIsALine(box.get(0)));
-//		for (int i=0;i<arr.length;i++)
-//		{
-//			System.out.println("I"+i);
-//			for (int w=i+1;w<arr.length;w++)
-//			{
-//				System.out.println("W"+w);
-//				for (int z=0;z<box.size();z++)
-//				{
-//					System.out.println("Z"+z);
-//					Point3D pI=new Point3D (arr[i].y(),arr[i].x());
-//					Point3D pW=new Point3D (arr[w].y(),arr[w].x());
-//					Line line=new Line (pI,pW);
-//					if (line.TherIsALine(box.get(z))==true)//that means that the line going throw this box
-//					{
-//						G.addEdge(""+i,""+w,pI.distance2D(pW));
-//						count++;
-//					}
-//					else 
-//						System.out.println("False");
-//				}
-//			}
-//		}
+		System.out.println(""+line.TherIsALine(box.get(0)));
+
 		System.out.println("count"+count);
 		return arr;
 	}
@@ -112,7 +88,7 @@ public class Graph_example {
 		}
 		if (flag==true)
 		{
-			arr2[counter]=map.gpsToPix(1433, 642,arr[i]);
+			arr2[counter]=map.GPStoPixels(1433, 642,arr[i]);
 			counter++;
 		}
 	}

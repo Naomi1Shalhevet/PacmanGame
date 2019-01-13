@@ -15,7 +15,7 @@ import Robot.Play;
  * 7.3 get the game-board current state
  * 7.4 goto 7
  * 8. done - report the results to the DB.
- * @author ben-moshe
+ * @author Shalhevet Gamliel and Naomi Oyer
  *
  */
 public class Ex4_Main_Example {

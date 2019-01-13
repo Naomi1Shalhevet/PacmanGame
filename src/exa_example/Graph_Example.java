@@ -10,7 +10,7 @@ import graph.Point3D;
  * This main class demonstrate a use of Dijkstra algorithm for finding the shortest path
  * between a source vertex on a graph to all other vertices.
  * The main class is based on the image of p_graph_ex4.png
- * @author ben-moshe
+ * @author Shalhevet Gamliel and Naomi Oyer
  *
  */
 public class Graph_Example {
