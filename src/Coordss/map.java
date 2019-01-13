@@ -1,5 +1,5 @@
-package Coords;
-import Geom.Point3D;
+package Coordss;
+import Geomm.Point3D;
 
 /**
  * The class creates converting functions from gps to pixel and 

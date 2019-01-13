@@ -1,6 +1,8 @@
-package Geom;
+package Geomm;
 
 import java.io.Serializable;
+
+import Geomm.Point3D;
 public class Point3D implements Geom_element, Serializable 
 {
 	/**

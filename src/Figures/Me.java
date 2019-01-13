@@ -1,21 +1,58 @@
 package Figures;
-import Geom.Point3D;
+import Geomm.Point3D;
+
+
+
+/**
+ * The class represents the main player  
+ * @author shalhevet and Naomi
+ *
+ */
 public class Me {
-	Point3D me;
-	public Me(String []arr)
-	{
-		me=new Point3D (Double.parseDouble(arr[2]),Double.parseDouble(arr[3]),Double.parseDouble(arr[4]));
-	}
+
+	Point3D point_Me;
+
+	/**
+	 * Constructor that gets two values and sets them as a location for the player
+	 * @param d
+	 * @param e
+	 */
 	public Me(double d,double e)
 	{
-		me=new Point3D ( d,  e);
+		point_Me=new Point3D ( d,  e);
 	}
-	public Point3D getMe ()
-	{
-		return me;
+
+
+	/**
+	 * function get of point_Me
+	 * @return point_Me
+	 */
+	public Point3D getPoint_Me (){
+		return point_Me;
 	}
-	public void setPoint (Point3D p)
-	{
-		this.me=p;
+
+	/**
+	 * function set of point_Me
+	 * @param point_Me
+	 */
+	public void setPoint_Me (Point3D point_Me){
+		this.point_Me = point_Me;
 	}
+
+
+	/**
+	 * A constructor that reads an array of string
+	 * @param line
+	 */
+	public Me(String []line){
+
+		double lat = Double.parseDouble(line[2]);
+		double lon = Double.parseDouble(line[3]);
+		double alt = 0 ;
+
+		point_Me = new Point3D (lat,lon,alt);
+	}
+
+
+
 }

@@ -1,4 +1,12 @@
-package Geom;
+package Geomm;
+
+import Geomm.Point3D;
+
+/**
+ * This is an interface that calculates geometric functions in space
+ * @author Shalhevet Gamliel and Naomi Oyer
+ *
+ */
 
 public interface Geom_element {
 	public double distance3D(Point3D p) ;

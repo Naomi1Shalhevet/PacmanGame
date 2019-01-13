@@ -1,75 +1,92 @@
 package Figures;
 
-import Coords.map;
-import Geom.Point3D;
+import Coordss.map;
+import Geomm.Point3D;
 
+/**
+ * This class represents a box in the game
+ * @author Shalhevet Gamliel and Naomi Oyer
+ *
+ */
 public class Box {
-	private Point3D pointTop;
-	private Point3D pointDown;
-	private Point3D pointStart;
-	private Point3D downRight;
-	private int limXleft;
-	private int limXright;
-	private int limYup;
-	private int limYdown;
+	private Point3D RightUp;
+	private Point3D LeftDown;
+	private Point3D RightDown; 
+	private Point3D LeftUp;
 	private double MapWidth = 1433;
 	private double MapHeight = 642;
 
 	/**
-	 * Constractor of the Box
+	 * Constructor that gets a string and uses the data
+	 * 
 	 */
 
 	public Box(String []arr)
 	{
-		pointDown=new Point3D(Double.parseDouble(arr[2]),Double.parseDouble(arr[3]),Double.parseDouble(arr[4]));
-		pointTop=new Point3D(Double.parseDouble(arr[5]),Double.parseDouble(arr[6]),Double.parseDouble(arr[7]));
-		pointStart=new Point3D(pointTop.x(),pointDown.y());
-		downRight=new Point3D (pointDown.x(), pointTop.y());
-		limYdown=map.GPStoPixels(MapWidth, MapHeight, pointDown).ix()-1;
-		 limYup=map.GPStoPixels(MapWidth, MapHeight, pointTop).ix()+1;
-		 limXright=map.GPStoPixels(MapWidth, MapHeight, pointTop).iy()-1;
-		limXleft=map.GPStoPixels(MapWidth, MapHeight, pointDown).iy()+1;
-		
+		LeftDown=new Point3D(Double.parseDouble(arr[2]),Double.parseDouble(arr[3]),Double.parseDouble(arr[4]));
+		RightUp=new Point3D(Double.parseDouble(arr[5]),Double.parseDouble(arr[6]),Double.parseDouble(arr[7]));
+		RightDown=new Point3D(RightUp.x(),LeftDown.y());
+		LeftUp=new Point3D (LeftDown.x(), RightUp.y());
+
+
 	}
-	public int getLimXleft() {
-		return limXleft;
-	}
-	public int getLimXright() {
-		return limXright;
-	}
-	public int getLimYup() {
-		return limYup;
-	}
-	public int getLimYdown() {
-		return limYdown;
-	}
+
+	/**
+	 * Constructor that gets three points and creates a box
+	 * @param b
+	 */
 	public Box(Box b)
 	{
-		pointDown=b.getPointDown();
-		pointTop=b.getPointTop();
-		pointStart=b.getPointStart();
+		LeftDown=b.getLeftDown();
+		RightUp=b.getRightUp();
+		RightDown=b.getRightDown();
 	}
-	public Point3D getPointTop()
+
+	/**
+	 * Get function for right up corner of the box
+	 * @return
+	 */
+	public Point3D getRightUp()
 	{
-		return this.pointTop;
+		return this.RightUp;
 	}
-	public Point3D getPointDown()
+
+	/**
+	 * Get function for left down corner of the box
+	 * @return the point
+	 */
+	public Point3D getLeftDown()
 	{
-		return this.pointDown;
+		return this.LeftDown;
 	}
-	public Point3D getPointStart() 
+
+	/**
+	 * Get function for right down corner of the box
+	 * @return the point
+	 */
+	public Point3D getRightDown() 
 	{
-		return this.pointStart;
+		return this.RightDown;
 	}
-	public Point3D getDownRight() {
-		return downRight;
+
+	/**
+	 * Get function for left up corner of the box
+	 * @return the point
+	 */
+	public Point3D getLeftUp() {
+		return LeftUp;
 	}
-	
-	
+
+	/**
+	 * Function that gets a point and verifies if it is inside one of the boxes
+	 * @param point
+	 * @param IsGPS
+	 * @return
+	 */
 	public boolean inTheBox (Point3D point, boolean IsGPS)
 	{
-		Point3D TopInp=map.GPStoPixels(MapWidth, MapHeight, pointTop);
-		Point3D downInp=map.GPStoPixels(MapWidth, MapHeight, pointDown);
+		Point3D TopInp=map.GPStoPixels(MapWidth, MapHeight, RightUp);
+		Point3D downInp=map.GPStoPixels(MapWidth, MapHeight, LeftDown);
 		if (IsGPS) {
 			point=map.GPStoPixels(MapWidth, MapHeight, point);
 		}
@@ -84,30 +101,28 @@ public class Box {
 	}
 
 	/**
-	 * return the width that get from this rectangle
+	 * Function that calculates and returns the width of the box (rectangle)
 	 * @param width
 	 * @param height
 	 * @return
 	 */
 	public int getWidth(int width, int height)
 	{
-		Point3D pixPD=map.GPStoPixels(width, height, pointDown);
-		Point3D pixPT=map.GPStoPixels(width, height, pointTop);
+		Point3D pixPD=map.GPStoPixels(width, height, LeftDown);
+		Point3D pixPT=map.GPStoPixels(width, height, RightUp);
 		return (int)(pixPD.x()-pixPT.x());
 	}
 	/**
-	 * return the height that get from this rectangle
+	 * Function that calculates and returns the height of the box (rectangle)
 	 * @param width
 	 * @param height
 	 * @return
 	 */
 	public int getHeight(int width, int height)
 	{
-		Point3D pixPD=map.GPStoPixels(width, height, pointDown);
-		Point3D pixPT=map.GPStoPixels(width, height,pointTop);
+		Point3D pixPD=map.GPStoPixels(width, height, LeftDown);
+		Point3D pixPT=map.GPStoPixels(width, height,RightUp);
 		return (int)(pixPT.y()-pixPD.y());
 	}
-	public String toString () {
-		return "limXleft "+limXleft+" limXright "+limXright+" limYup "+limYup+" limYdown "+limYdown;	
-	}
+
 }

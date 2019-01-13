@@ -1,6 +1,7 @@
-package Coords;
+package Coordss;
 
-import Geom.Point3D;
+import Coordss.coords_converter;
+import Geomm.Point3D;
 
 /**
  * This class converts radians coordinates to cartesian ones, add coordinates together, find the distance between two points 

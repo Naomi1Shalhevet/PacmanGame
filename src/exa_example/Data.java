@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 /* from OpenSource */
 /**
- * 
+ * This class sends the score of the game to a website
  * @author Shalhevet Gamliel and Naomi Oyer
  *
  */

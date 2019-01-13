@@ -28,46 +28,51 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import Coords.map;
-//import org.omg.PortableServer.THREAD_POLICY_ID;
-import Geom.Point3D;
+import Coordss.map;
 import Graph.MyGraph;
 import Robot.Play;
-import Threads.MyThread;
 import Figures.Box;
 import Figures.Fruit;
+import Figures.Ghost;
 import Figures.Me;
-import Figures.Packman;
-import Figures.ghost;
+import Figures.Pacmans;
+import Geomm.Point3D;
 
 
-public class MainWindow extends JFrame implements MouseListener{
+/**
+ * This class represents a gui class of a pacman game on a map
+ * @author Shalhevet and Naomi
+ *
+ */
+public class MainWindow extends JFrame implements MouseListener {
 
-	public BufferedImage myImage;
-	ArrayList<Packman> pack_array = null;
+	ArrayList<Pacmans> pacman_array = null;
 	ArrayList<Fruit> fruit_array = null;
-	ArrayList<ghost> ghost_array = null;
+	ArrayList<Ghost> ghost_array = null;
 	ArrayList<Box> box_array = null;
-	Point3D [] BoxCorners = null;
-	Me me=new Me (32.101898,35.202369);
-	Play server = new Play();
-	double angle=0;
-	boolean IsRuning=false;
-	boolean IsPlayer=false;
-	boolean IsBox=false;
 
-	
-	
-	public MainWindow() 
-	{
+	Me me = new Me (32.101898,35.202369);
+	public BufferedImage myImage;
+	Play server = new Play();
+	double angle = 0;
+	boolean Runing = false;
+	boolean Player = false;
+	Point3D [] BoxCorners = null;
+
+
+	/**
+	 * open the Window
+	 */
+	public MainWindow() {
 		initGUI();	
-		this.addMouseListener(this); 
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.addMouseListener( this ); 
+		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	}
-	
-	
-	private void initGUI() 
-	{ 
+
+	/**
+	 * Creates the buttons and links functions to buttons
+	 */
+	private void initGUI() { 
 
 		MenuBar menuBar = new MenuBar();
 
@@ -76,166 +81,160 @@ public class MainWindow extends JFrame implements MouseListener{
 		MenuItem Meplace = new MenuItem("Place your player");
 		MenuItem run = new MenuItem("Run the game");
 
-		
-		csv.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				OpenFile();
-			}
-		});
-		
+		menuBar.add( myGame );
+		myGame.add( csv )    ;
+		myGame.add( Meplace );
+		myGame.add( run )    ;
+
+		setMenuBar(menuBar);
+
+		/*run*/
 		run.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				IsRuning=true;
+				Runing = true;
 				server.start();
 				RestartGame();
 			}
 		});
-		
-	
-	
-		Meplace.addActionListener(new ActionListener() {
+
+
+		/*csv*/
+		csv.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
-				IsPlayer=true;	
+				OpenFile();
 			}
 		});
-		
-		
-		menuBar.add(myGame);
-		myGame.add(csv);
-		myGame.add(Meplace);
-		myGame.add(run);
 
-		setMenuBar(menuBar);
+
+
+		/*Meplace*/
+		Meplace.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				Player = true;	
+			}
+		});
 
 
 
 		try {
 			myImage = ImageIO.read(new File("Ariel1.png"));
-		
-
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
-		}
+		}		
 
-	
-
-		this.setSize(myImage.getWidth(),myImage.getHeight());
-		
-		
 	}
 
-	public void paint(Graphics g)
-	{
-		
-		g.drawImage(myImage,0 , 0,getWidth(),getHeight(), this);
-		
+	/**
+	 * The function is responsible for drawing the image
+	 */
+	public void paint(Graphics g) {
 
-		
-		if (box_array!=null) 
-		{ 
-			Iterator<Box> itr=box_array.iterator(); 
+		g.drawImage(myImage,0 , 0,getWidth(),getHeight(), this);
+
+
+
+		if (box_array!=null) { 
+			Iterator<Box> itr = box_array.iterator(); 
+
 			while(itr.hasNext()) {
-			
-				Box box=new Box(itr.next());
-				
-				double width=box.getWidth(getWidth(), getHeight());
-				double height=box.getHeight(getWidth(),getHeight());
-				
-				Point3D rect=map.GPStoPixels(getWidth(),getHeight(),box.getPointStart());
-				
+
+				Box box = new Box(itr.next());
+
+				double width = box.getWidth( getWidth(), getHeight() );
+				double height = box.getHeight( getWidth() , getHeight() );
+
+				Point3D rect = map.GPStoPixels( getWidth() , getHeight() , box.getRightDown());
+
 				g.setColor(Color.black); 
 				g.fillRect((int) rect.y(), (int)rect.x(), (int)height ,(int)width); 
 			}
 		}
-		
 
-		if(pack_array!=null) 
-		{
-			for (int i=0;i<pack_array.size();i++)
-			{
-				Point3D pac=map.GPStoPixels(getWidth(), getHeight(), pack_array.get(i).getPoint());
+
+		if(pacman_array!=null) {
+
+			for (int i = 0 ; i<pacman_array.size() ; i++){
+
 				g.setColor(Color.YELLOW);
+				Point3D pac = map.GPStoPixels(getWidth(), getHeight(), pacman_array.get(i).getPoint_pacman());
 				g.fillOval(pac.iy(), pac.ix(), 25,25);
 
 			}
 		}
 
-		
-		if(fruit_array!=null) 
-		{
 
-			for (int i=0;i<fruit_array.size();i++)
-			{
-				Point3D fruit=map.GPStoPixels(getWidth(), getHeight(), fruit_array.get(i).getPoint());
+		if(fruit_array!=null){
+
+			for (int i = 0 ; i<fruit_array.size() ; i++) {
+
 				g.setColor(Color.RED);
+				Point3D fruit = map.GPStoPixels(getWidth(), getHeight(), fruit_array.get(i).getPoint_Fruit());
 				g.fillOval(fruit.iy(), fruit.ix(), 15,15);
 			}	
 		}
-		
+		if (ghost_array!= null) {
 
-		if (ghost_array!=null)
-		{
-			for (int i=0;i<ghost_array.size();i++)
-			{
+			for (int i = 0 ; i<ghost_array.size(); i++) {
 
-				Point3D ghost=map.GPStoPixels(getWidth(), getHeight(), ghost_array.get(i).getGpsPoint());
 				g.setColor(Color.CYAN);
+				Point3D ghost=map.GPStoPixels(getWidth(), getHeight(), ghost_array.get(i).getpoint_Ghost());
 				g.fillOval(ghost.iy(), ghost.ix(), 20,20);
 
 			}
 		}
-		
 
-		if (BoxCorners!=null)
-		{
-			for (int i=0;i<BoxCorners.length;i++)
-			{
-				Point3D corner= BoxCorners[i];
+		if (BoxCorners!=null) {
+
+			for (int i=0;i<BoxCorners.length;i++) {
+
 				g.setColor(Color.green);
+				Point3D corner= BoxCorners[i];
 				g.fillOval(corner.iy(),corner.ix(),3,3);	
 			}
 		}
-		
 
-		/**
-		 * 
-		 */
-		if (IsRuning) 
-		{
-			String []line=server.getBoard().iterator().next().split(",");//founding the rotate 
-			me=new Me(line);
+		if (Runing == true) {
+
+			String []line = server.getBoard().iterator().next().split(","); 
+			me = new Me(line);
 		}	
-		
-		Point3D p=map.GPStoPixels(getWidth(), getHeight(),me.getMe());
+
+
+		Point3D p = map.GPStoPixels(getWidth(), getHeight(),me.getPoint_Me());
 		g.setColor(Color.MAGENTA);
 		g.fillOval(p.iy(), p.ix(), 30,30);
+
 		try {
 			Thread.sleep(20);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			String info = server.getStatistics();
+			System.out.println(info);
+		}
+		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
-		if (IsRuning)
-		{
+
+		if (Runing == true) {
+
 			server.rotate(angle);
 			RestartGame();
 		}
-		
-		if(IsRuning)
-		{
+
+		if(Runing == true) {
+
 			if(server.isRuning()==false)
-				IsRuning=false;
+				Runing = false;
 		}
 	}
 
 
 	/**
-	 * reading from the csv
+	 * The function read from the file csv
 	 */
 	public void OpenFile() {
-//		entercsv=true;
+
 		FileDialog file = new FileDialog(this, "Open text file", FileDialog.LOAD);
 		file.setFile("*.csv");
 
@@ -246,9 +245,8 @@ public class MainWindow extends JFrame implements MouseListener{
 				return name.endsWith(".csv");
 			}
 		});
-		
+
 		file.setVisible(true);
-//		String folder = file.getDirectory();
 		String fileName = file.getFile();
 		System.out.println(fileName);
 		server = new Play("Data/"+fileName);
@@ -258,78 +256,83 @@ public class MainWindow extends JFrame implements MouseListener{
 	}
 
 	/**
-	 * this function restart every time and restart all the arraylist with the new infomations
+	 * The function accepts the arraylist of strings and inserts the appropriate arraylist
 	 */
 	public void RestartGame()
 	{
-		pack_array = new ArrayList<Packman>();
-		fruit_array= new ArrayList<Fruit>();
-		ghost_array= new ArrayList<ghost>();
-		box_array= new ArrayList<Box> ();
+		pacman_array = new ArrayList<Pacmans>();
+		fruit_array = new ArrayList<Fruit>();
+		ghost_array= new ArrayList<Ghost>();
+		box_array = new ArrayList<Box> ();
 		ArrayList<String> data = server.getBoard();
-		
-		for(int i=0;i<data.size();i++) 
-		{
-			//reading from the csv
+
+		for(int i=0;i<data.size();i++) {
+
+
 			String[] csvLine = data.get(i).split(",");
-			String obj=csvLine[0];
-			switch(obj)
-			{
-			case "B": 
-			{
-				Box box=new Box(csvLine);
-				box_array.add(box);
+			//String obj = csvLine[0];
+
+
+			if (csvLine[0].equals("B")){
+				Box box_new =new Box(csvLine);
+				box_array.add(box_new);
 				break;
 			}
-			case "F": 
-			{
-				Fruit fruit=new Fruit (csvLine);
-				fruit_array.add(fruit);
+
+			if (csvLine[0].equals("F")){
+				Fruit fruit_new =new Fruit (csvLine);
+				fruit_array.add(fruit_new);
 				break;
 			}
-			case "G":
-			{
-				ghost ghost=new ghost (csvLine);
-				ghost_array.add(ghost);
+
+			if (csvLine[0].equals("G")){
+				Ghost ghost_new = new Ghost (csvLine);
+				ghost_array.add(ghost_new);
 				break;
 			}
-			case "P": 
-			{
-				Packman packman=new Packman(csvLine);
-				pack_array.add(packman);
+			if (csvLine[0].equals("P")) {
+				Pacmans Pac_new =new Pacmans(csvLine);
+				pacman_array.add(Pac_new);
 				break;
 			}
-			}
+
 		}
-		
+
+
 		if (box_array != null) {
-		MyGraph graph= new MyGraph(box_array);
-		BoxCorners=graph.PlayBox(fruit_array.get(0), me);
-		repaint();
-		}
-	}
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		int x=e.getX();
-		int y=e.getY();
-		
-		if(IsPlayer)
-		{
-			Point3D player=map.PixelstoGPS(getWidth(), getHeight(), new Point3D (x,y));
-			server.setInitLocation(player.x(),player.y());
-			me.setPoint(player);
-			IsPlayer=false;
+			MyGraph graph= new MyGraph(box_array);
+			BoxCorners = graph.BoxCorners(fruit_array.get(0), me);
+
+
+
 			repaint();
 		}
-		
-		if (IsRuning)
-		{
-			String []arr=server.getBoard().iterator().next().split(",");//founding the rotate 
-			me=new Me(arr);
-			Point3D inv=map.GPStoPixels(getWidth(), getHeight(), me.getMe());
+	}
+
+	/**
+	 * setInitLocation to the player on the map and calculates the angle between the player the point clicked on the map 
+	 *   
+	 */
+
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int x = e.getX();
+		int y = e.getY();
+
+		if(Player == true) {
+			Point3D player = map.PixelstoGPS(getWidth(), getHeight(), new Point3D (x,y));
+			server.setInitLocation(player.x(),player.y());
+			me.setPoint_Me(player);
+			Player = false;
+			repaint();
+		}
+
+		if (Runing == true ){
+			String []arr = server.getBoard().iterator().next().split(",");//founding the rotate 
+			me = new Me(arr);
+			Point3D inv = map.GPStoPixels(getWidth(), getHeight(), me.getPoint_Me());
 			Point3D ang=new Point3D (inv.y(),inv.x());
-			angle=map.FindAngle(getWidth(), getHeight(),ang, new Point3D(x,y));
+			angle = map.FindAngle(getWidth(), getHeight(),ang, new Point3D(x,y));
 			server.rotate(angle);
 
 		}
@@ -356,8 +359,5 @@ public class MainWindow extends JFrame implements MouseListener{
 
 	}
 
-//	public static void main(String[] args) {
-//		MainWindow Window=  new MainWindow();
-//		Window.setVisible(true);
-//	}
+
 }
